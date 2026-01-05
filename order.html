@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Now - Itqan Creative</title>
+    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header_img_div">
+            <a href="index.html">
+                <img src="img/header.svg" alt="Itqan Creative Logo" class="header_img">
+            </a>
+        </div>
+
+        <div class="parent">
+            <div class="child" id="menu_div">
+                <nav class="menu_aria">
+                    <ul>
+                        <li><a href="index.html">হোম</a></li>
+                        <li class="dropdown-parent">
+                            <a href="index.html#logo">আমাদের কাজ</a>
+                            <ul class="dropdown">
+                                <li><a href="index.html#logo">লোগো ডিজাইন</a></li>
+                                <li><a href="index.html#book">বই ডিজাইন</a></li>
+                                <li><a href="index.html#web">ওয়েব ডিজাইন</a></li>
+                                <li><a href="#">ওয়েব ডেভেলপমেন্ট</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="about.html">সম্পর্কে</a></li>
+                        <li><a href="about.html#contact">যোগাযোগ</a></li>
+
+                        <a href="signup.html" class="link" id="sign_in">সাইন ইন</a>
+                        <a href="login.html" class="link" id="log_in">লোগ ইন</a>
+                        <a href="payment.html" class="link" id="log_in">পেমেন্ট</a>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="child" id="search_div">
+                <input type="search" name="search" id="search" placeholder=" আপনি কী খুজছেন? ">
+                <button>খুজুন</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="order-hero">
+            <div class="container">
+                <h1>অর্ডার করুন</h1>
+                <p>আপনার স্বপ্নের প্রজেক্ট শুরু করতে ফর্মটি পূরণ করুন</p>
+            </div>
+        </section>
+
+        <section class="order-section">
+            <div class="order-container">
+                <form id="order-form" class="order-form">
+                    <div class="form-group">
+                        <label for="name">আপনার নাম</label>
+                        <input type="text" id="name" name="customer" placeholder="আপনার পুরো নাম লিখুন" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">ইমেইল</label>
+                        <input type="email" id="email" name="email" placeholder="আপনার ইমেইল ঠিকানা" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">মোবাইল নম্বর</label>
+                        <input type="tel" id="phone" name="phone" placeholder="আপনার মোবাইল নম্বর" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="service">সেবা নির্বাচন করুন</label>
+                        <select id="service" name="service" required>
+                            <option value="">একটি নির্বাচন করুন</option>
+                            <option value="Logo Design">লোগো ডিজাইন</option>
+                            <option value="Book Design">বই ডিজাইন</option>
+                            <option value="Web Design">ওয়েব ডিজাইন</option>
+                            <option value="Web Development">ওয়েব ডেভেলপমেন্ট</option>
+                            <option value="App Design">অ্যাপ্লিকেশন ডিজাইন</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="details">প্রজেক্ট বিস্তারিত</label>
+                        <textarea id="details" name="details" rows="5"
+                            placeholder="আপনার প্রজেক্ট সম্পর্কে বিস্তারিত লিখুন..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="sampleFile">স্যাম্পল ফাইল / ছবি (ঐচ্ছিক)</label>
+                        <input type="file" id="sampleFile" name="sampleFile" accept="image/*, .pdf, .doc, .docx"
+                            style="padding: 10px; border: 1px dashed #06b6d4; width: 100%;">
+                        <small style="color: #666; display: block; margin-top: 5px;">* সর্বোচ্চ 5MB</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn" id="submit-btn">অর্ডার নিশ্চিত করুন</button>
+                    </div>
+                </form>
+
+                <script>
+                    document.getElementById('order-form').addEventListener('submit', function (e) {
+                        e.preventDefault();
+
+                        const btn = document.getElementById('submit-btn');
+                        btn.innerText = 'অপেক্ষা করুন...';
+                        btn.disabled = true;
+
+                        const formData = new FormData(this);
+                        formData.append('amount', '500');
+                        formData.append('status', 'Pending');
+
+                        fetch('/api/orders', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                alert('আপনার অর্ডার সফলভাবে গৃহীত হয়েছে!');
+                                window.location.href = 'payment.html';
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                alert('দুঃখিত, সমস্যা হচ্ছে। আবার চেষ্টা করুন।');
+                                btn.innerText = 'অর্ডার নিশ্চিত করুন';
+                                btn.disabled = false;
+                            });
+                    });
+                </script>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <h2>আমাদের সম্পর্কে</h2>
+            <p>আমরা ইকান ক্রিয়েটিভস, আপনার সব ধরনের ডিজাইন এবং ডেভেলপমেন্ট প্রয়োজনের জন্য।</p>
+            <p>&copy; ২০২৬ ইকান ক্রিয়েটিভস। সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

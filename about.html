@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Itqan Creative</title>
+    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header_img_div">
+            <a href="index.html">
+                <img src="img/header.svg" alt="Itqan Creative Logo" class="header_img">
+            </a>
+        </div>
+
+        <div class="parent">
+            <div class="child" id="menu_div">
+                <nav class="menu_aria">
+                    <ul>
+                        <li><a href="index.html">হোম</a></li>
+                        <li class="dropdown-parent">
+                            <a href="index.html#logo">আমাদের কাজ</a>
+                            <ul class="dropdown">
+                                <li><a href="index.html#logo">লোগো ডিজাইন</a></li>
+                                <li><a href="index.html#book">বই ডিজাইন</a></li>
+                                <li><a href="index.html#web">ওয়েব ডিজাইন</a></li>
+                                <li><a href="#">ওয়েব ডেভেলপমেন্ট</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" class="active">সম্পর্কে</a></li>
+                        <li><a href="#contact">যোগাযোগ</a></li>
+
+                        <a href="signup.html" class="link" id="sign_in">সাইন ইন</a>
+                        <a href="login.html" class="link" id="log_in">লোগ ইন</a>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="child" id="search_div">
+                <input type="search" name="search" id="search" placeholder=" আপনি কী খুজছেন? ">
+                <button>খুজুন</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="about-hero">
+            <div class="container">
+                <h1>আমাদের সম্পর্কে</h1>
+                <p>নিরাপত্তা, সততা এবং সৃজনশীলতার প্রতিশ্রুতি</p>
+            </div>
+        </section>
+
+        <section class="about-content">
+            <div class="about-card">
+                <h2>নিরাপত্তা ও লগইন</h2>
+                <p>আমাদের ওয়েবসাইটে আপনার অ্যাকাউন্ট এবং তথ্যের নিরাপত্তা আমাদের সর্বোচ্চ অগ্রাধিকার। আমরা আধুনিক
+                    এনক্রিপশন প্রযুক্তি ব্যবহার করি যাতে আপনার লগইন তথ্য এবং ব্যক্তিগত ডেটা সুরক্ষিত থাকে। আমাদের নিরাপদ
+                    লগইন ব্যবস্থার মাধ্যমে আপনি নিশ্চিন্তে আপনার প্রজেক্ট পরিচালনা করতে পারেন।</p>
+            </div>
+
+            <div class="about-card">
+                <h2>আমাদের কাজের সততা</h2>
+                <p>ইকান ক্রিয়েটিভস বিশ্বাস করে যে সততাই ব্যবসার মূল ভিত্তি। আমরা প্রতিটি প্রজেক্টে স্বচ্ছতা বজায় রাখি
+                    এবং কপিরাইট আইন মেনে অরিজিনাল ডিজাইন প্রদান করি। আমাদের কাজের মান এবং গ্রাহকের সন্তুষ্টির বিষয়ে
+                    আমরা আপোষহীন। আমরা যা প্রতিশ্রুতি দিই, তা রক্ষা করতে সর্বদা সচেষ্ট থাকি।</p>
+            </div>
+
+            <div class="about-card">
+                <h2>আমাদের লক্ষ্য</h2>
+                <p>আমরা চাই প্রযুক্তির মাধ্যমে আপনার ব্যবসাকে পরবর্তী স্তরে নিয়ে যেতে। সুন্দর ডিজাইন এবং শক্তিশালী
+                    ডেভেলপমেন্টের মাধ্যমে আমরা আপনার ব্র্যান্ডকে অনন্যভাবে উপস্থাপন করি।</p>
+            </div>
+
+            <div class="about-card" id="contact">
+                <h2>যোগাযোগ করুন</h2>
+                <p>যেকোনো প্রয়োজনে আমাদের সাথে যোগাযোগ করতে পারেন:</p>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> মোবাইল: <span id="contact-phone-display">+880 1857059485</span></p>
+                    <p id="contact-phone-2-container" style="display:none;"><i class="fas fa-phone"></i> মোবাইল ২: <span
+                            id="contact-phone-2-display"></span></p>
+                    <div class="social-links">
+                        <a href="#" id="link-facebook" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" id="link-whatsapp" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" id="link-telegram" class="social-icon"><i class="fab fa-telegram"></i></a>
+                        <a href="#" id="link-twitter" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <h2>আমাদের সম্পর্কে</h2>
+            <p>আমরা ইকান ক্রিয়েটিভস, আপনার সব ধরনের ডিজাইন এবং ডেভেলপমেন্ট প্রয়োজনের জন্য।</p>
+            <p>&copy; ২০২৬ ইকান ক্রিয়েটিভস। সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

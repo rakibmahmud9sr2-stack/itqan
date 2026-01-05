@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Settings - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kalpurush&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style/admin.css">
+    <script src="/js/admin-theme.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="/img/header.svg" alt="Itqan" class="logo">
+                <h3>Admin Panel</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/admin/dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="/admin/orders"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+                    <li><a href="/admin/services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                    <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="/admin/messages"><i class="fas fa-envelope"></i> Messages</a></li>
+                    <li class="active"><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/index.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h2>Settings</h2>
+                <div class="user-info">
+                    <div class="profile"
+                        onclick="toggleSection('profile-content', 'profile-chevron'); document.getElementById('profile-content').scrollIntoView({behavior: 'smooth', block: 'center'});"
+                        style="cursor: pointer;" title="Manage Admin Profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=06b6d4&color=fff" alt="Admin">
+                        <span>Admin Profile</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="recent-orders-section">
+                    <div class="section-header">
+                        <h2>General Settings</h2>
+                    </div>
+
+                    <form id="settings-form" style="display: grid; gap: 2rem;">
+
+                        <!-- Admin Profile Settings -->
+                        <div class="settings-group">
+                            <div style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
+                                onclick="toggleSection('profile-content', 'profile-chevron')">
+                                <h3><i class="fas fa-user-shield" style="margin-right: 10px;"></i> Admin Profile</h3>
+                                <i id="profile-chevron" class="fas fa-chevron-down"></i>
+                            </div>
+
+                            <div id="profile-content" style="display: none; margin-top: 1.5rem;">
+                                <div class="form-group">
+                                    <label>Admin Username</label>
+                                    <input type="text" id="admin-username" class="payment-input"
+                                        style="width: 100%; padding: 0.8rem; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #fff;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Admin Password</label>
+                                    <div style="position: relative;">
+                                        <input type="password" id="admin-password" class="payment-input"
+                                            style="width: 100%; padding: 0.8rem; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #fff;">
+                                        <i class="fas fa-eye" onclick="togglePasswordVisibility('admin-password')"
+                                            style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8;"></i>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Forget Password Instructions (Recovery Info)</label>
+                                    <textarea id="admin-recovery" class="payment-input" rows="3"
+                                        style="width: 100%; padding: 0.8rem; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #fff;"
+                                        placeholder="Enter instructions for password recovery (e.g. Contact Developer at...)"></textarea>
+                                </div>
+                                <div style="margin-top: 1rem; text-align: right;">
+                                    <button type="button" onclick="saveSettings()" class="pay-btn"
+                                        style="width: auto; padding: 0.8rem 2rem;">Save Profile</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Payment Settings -->
+                        <!-- Payment Settings (Dynamic) -->
+                        <div class="settings-group">
+                            <div style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
+                                onclick="toggleSection('payment-content', 'payment-chevron')">
+                                <h3><i class="fas fa-credit-card" style="margin-right: 10px;"></i> Manage Payment
+                                    Methods</h3>
+                                <i id="payment-chevron" class="fas fa-chevron-down"></i>
+                            </div>
+
+                            <div id="payment-content" style="display: none; margin-top: 1.5rem;">
+                                <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+                                    <button type="button" onclick="resetPaymentForm()" class="pay-btn"
+                                        style="padding: 0.5rem 1rem; width: auto;">
+                                        <i class="fas fa-plus"></i> Add New
+                                    </button>
+                                </div>
+                                <div class="table-container">
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <thead>
+                                            <tr style="text-align: left; border-bottom: 1px solid #334155;">
+                                                <th style="padding: 1rem;">Status</th>
+                                                <th style="padding: 1rem;">Method</th>
+                                                <th style="padding: 1rem;">Number</th>
+                                                <th style="padding: 1rem;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="payment-methods-body">
+                                            <!-- Dynamic Content -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Inline Form -->
+                                <div id="payment-form-container"
+                                    style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border: 1px solid #334155; display: none;">
+                                    <h4 id="form-title" style="margin-bottom: 1rem; color: #fff;">Add New Payment Method
+                                    </h4>
+                                    <div style="display: grid; gap: 1rem;">
+                                        <input type="hidden" id="method-id" value="new">
+                                        <div class="form-group">
+                                            <label>Method Name</label>
+                                            <input type="text" id="method-name" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Number / Details</label>
+                                            <input type="text" id="method-number" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Icon Class (FontAwesome)</label>
+                                            <input type="text" id="method-icon" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Instruction</label>
+                                            <input type="text" id="method-instruction" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;">
+                                        </div>
+                                        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                                            <button type="button" onclick="resetPaymentForm(true)" class="action-btn"
+                                                style="border: 1px solid #ef4444; color: #ef4444;">Cancel</button>
+                                            <button type="button" onclick="handlePaymentSave()" class="pay-btn"
+                                                style="width: auto; padding: 0.5rem 1.5rem;">Save Method</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- End Hidden Content -->
+                        </div>
+
+                        <!-- Contact & Social Settings -->
+                        <div class="settings-group">
+                            <div style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
+                                onclick="toggleSection('contact-content', 'contact-chevron')">
+                                <h3><i class="fas fa-address-book" style="margin-right: 10px;"></i> Contact & Social
+                                    Media</h3>
+                                <i id="contact-chevron" class="fas fa-chevron-down"></i>
+                            </div>
+                            <div id="contact-content" style="display: none; margin-top: 1.5rem;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div class="form-group">
+                                        <label>Mobile Number 1</label>
+                                        <input type="text" id="contact-phone" class="payment-input"
+                                            style="width: 100%; padding: 0.5rem;" placeholder="+880...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Mobile Number 2</label>
+                                        <input type="text" id="contact-phone-2" class="payment-input"
+                                            style="width: 100%; padding: 0.5rem;" placeholder="+880...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Facebook Link</label>
+                                        <input type="text" id="social-facebook" class="payment-input"
+                                            style="width: 100%; padding: 0.5rem;"
+                                            placeholder="https://facebook.com/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>WhatsApp Link</label>
+                                        <input type="text" id="social-whatsapp" class="payment-input"
+                                            style="width: 100%; padding: 0.5rem;" placeholder="https://wa.me/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Telegram Link</label>
+                                        <input type="text" id="social-telegram" class="payment-input"
+                                            style="width: 100%; padding: 0.5rem;" placeholder="https://t.me/...">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="social-twitter" class="payment-input"
+                                            style="width: 100%; padding: 0.5rem;" placeholder="https://twitter.com/...">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 1rem; text-align: right;">
+                                    <button type="button" onclick="saveSettings()" class="pay-btn"
+                                        style="width: auto; padding: 0.5rem 1.5rem;">Save Contact Settings</button>
+                                </div>
+                            </div> <!-- End Hidden Content -->
+                        </div>
+
+                        <!-- Theme Settings -->
+                        <div class="settings-group">
+                            <div style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;"
+                                onclick="toggleSection('theme-content', 'theme-chevron')">
+                                <h3><i class="fas fa-palette" style="margin-right: 10px;"></i> Website Theme</h3>
+                                <i id="theme-chevron" class="fas fa-chevron-down"></i>
+                            </div>
+
+                            <div id="theme-content" style="display: none; margin-top: 1.5rem;">
+                                <div class="form-group" style="margin-bottom: 1.5rem;">
+                                    <label>Theme Preset</label>
+                                    <select id="theme-preset" class="payment-input"
+                                        style="width: 100%; padding: 0.8rem; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #fff;">
+                                        <option value="custom">Custom Configuration</option>
+                                        <option value="default">Default (Cyan & Slate)</option>
+                                        <option value="midnight">Midnight (Blue & Dark)</option>
+                                        <option value="forest">Forest (Green & Emerald)</option>
+                                        <option value="sunset">Sunset (Red & Amber)</option>
+                                        <option value="royal">Royal (Purple & Violet)</option>
+                                        <option value="ocean">Ocean (Deep Teal)</option>
+                                        <option value="monochrome">Monochrome (Black & White)</option>
+                                    </select>
+                                </div>
+
+                                <div id="custom-theme-options"
+                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                                    <!-- Primary Background -->
+                                    <div class="form-group">
+                                        <label>Primary Background</label>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="color" id="primary-bg"
+                                                style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                                            <input type="text" id="primary-bg-text" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;" placeholder="#000000">
+                                        </div>
+                                        <small style="color: #94a3b8;">Main page background (--primary-bg)</small>
+                                    </div>
+
+                                    <!-- Card Background -->
+                                    <div class="form-group">
+                                        <label>Card Background</label>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="color" id="card-bg"
+                                                style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                                            <input type="text" id="card-bg-text" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;" placeholder="#000000">
+                                        </div>
+                                        <small style="color: #94a3b8;">Container elements (--card-bg)</small>
+                                    </div>
+
+                                    <!-- Accent Color -->
+                                    <div class="form-group">
+                                        <label>Accent Color</label>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="color" id="accent-color"
+                                                style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                                            <input type="text" id="accent-color-text" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;" placeholder="#000000">
+                                        </div>
+                                        <small style="color: #94a3b8;">Buttons & Links (--accent-color)</small>
+                                    </div>
+
+                                    <!-- Accent Hover -->
+                                    <div class="form-group">
+                                        <label>Accent Hover</label>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="color" id="accent-hover"
+                                                style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                                            <input type="text" id="accent-hover-text" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;" placeholder="#000000">
+                                        </div>
+                                        <small style="color: #94a3b8;">Hover states (--accent-hover)</small>
+                                    </div>
+
+                                    <!-- Text Primary -->
+                                    <div class="form-group">
+                                        <label>Primary Text</label>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="color" id="text-primary"
+                                                style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                                            <input type="text" id="text-primary-text" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;" placeholder="#000000">
+                                        </div>
+                                        <small style="color: #94a3b8;">Main headings (--text-primary)</small>
+                                    </div>
+
+                                    <!-- Text Secondary -->
+                                    <div class="form-group">
+                                        <label>Secondary Text</label>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="color" id="text-secondary"
+                                                style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                                            <input type="text" id="text-secondary-text" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;" placeholder="#000000">
+                                        </div>
+                                        <small style="color: #94a3b8;">Subtitles/Paragraphs (--text-secondary)</small>
+                                    </div>
+
+                                    <!-- Border Color -->
+                                    <div class="form-group">
+                                        <label>Border Color</label>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <input type="color" id="border-color"
+                                                style="width: 50px; height: 40px; border: none; cursor: pointer;">
+                                            <input type="text" id="border-color-text" class="payment-input"
+                                                style="width: 100%; padding: 0.5rem;" placeholder="#000000">
+                                        </div>
+                                        <small style="color: #94a3b8;">Dividers & Borders (--border-color)</small>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                                    <button type="button" onclick="saveSettings()" class="pay-btn"
+                                        style="width: auto; padding: 0.8rem 2rem; display: flex; align-items: center; gap: 0.5rem;">
+                                        <i class="fas fa-save"></i> Save Theme Settings
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+        </main>
+    </div>
+
+
+
+    <script>
+        const themes = {
+            default: {
+                '--primary-bg': '#0f172a',
+                '--card-bg': '#1e293b',
+                '--accent-color': '#06b6d4',
+                '--accent-hover': '#0891b2',
+                '--text-primary': '#f1f5f9',
+                '--text-secondary': '#94a3b8',
+                '--border-color': '#334155'
+            },
+            midnight: {
+                '--primary-bg': '#0b1120',
+                '--card-bg': '#1e293b',
+                '--accent-color': '#3b82f6',
+                '--accent-hover': '#2563eb',
+                '--text-primary': '#f8fafc',
+                '--text-secondary': '#94a3b8',
+                '--border-color': '#334155'
+            },
+            forest: {
+                '--primary-bg': '#022c22',
+                '--card-bg': '#064e3b',
+                '--accent-color': '#10b981',
+                '--accent-hover': '#059669',
+                '--text-primary': '#ecfdf5',
+                '--text-secondary': '#a7f3d0',
+                '--border-color': '#065f46'
+            },
+            sunset: {
+                '--primary-bg': '#450a0a',
+                '--card-bg': '#7f1d1d',
+                '--accent-color': '#f59e0b',
+                '--accent-hover': '#d97706',
+                '--text-primary': '#fff7ed',
+                '--text-secondary': '#fed7aa',
+                '--border-color': '#991b1b'
+            },
+            royal: {
+                '--primary-bg': '#2e1065',
+                '--card-bg': '#4c1d95',
+                '--accent-color': '#8b5cf6',
+                '--accent-hover': '#7c3aed',
+                '--text-primary': '#f5f3ff',
+                '--text-secondary': '#ddd6fe',
+                '--border-color': '#5b21b6'
+            },
+            ocean: {
+                '--primary-bg': '#083344',
+                '--card-bg': '#164e63',
+                '--accent-color': '#06b6d4',
+                '--accent-hover': '#0891b2',
+                '--text-primary': '#ecfeff',
+                '--text-secondary': '#a5f3fc',
+                '--border-color': '#155e75'
+            },
+            monochrome: {
+                '--primary-bg': '#000000',
+                '--card-bg': '#171717',
+                '--accent-color': '#e5e5e5',
+                '--accent-hover': '#d4d4d4',
+                '--text-primary': '#ffffff',
+                '--text-secondary': '#a3a3a3',
+                '--border-color': '#262626'
+            }
+        };
+
+        const cssVars = [
+            'primary-bg', 'card-bg', 'accent-color', 'accent-hover',
+            'text-primary', 'text-secondary', 'border-color'
+        ];
+
+        const API_BASE_URL = 'http://localhost:3000';
+
+        let currentSettings = {};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchSettings();
+
+            // Modal Form Submit
+            // Modal Form Submit removed
+            // document.getElementById('payment-method-form').addEventListener('submit', handlePaymentSave);
+
+            // Theme Save
+            document.getElementById('settings-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveSettings();
+            });
+
+            // Theme Preset Logic
+            document.getElementById('theme-preset').addEventListener('change', (e) => {
+                const preset = e.target.value;
+                if (themes[preset]) {
+                    const theme = themes[preset];
+                    cssVars.forEach(v => {
+                        const val = theme[`--${v}`];
+                        document.getElementById(v).value = val;
+                        document.getElementById(`${v}-text`).value = val;
+                    });
+                }
+            });
+
+            // Sync Color Inputs with Text Inputs
+            cssVars.forEach(v => {
+                const colorInput = document.getElementById(v);
+                const textInput = document.getElementById(`${v}-text`);
+
+                colorInput.addEventListener('input', (e) => {
+                    textInput.value = e.target.value;
+                    document.getElementById('theme-preset').value = 'custom';
+                });
+
+                textInput.addEventListener('input', (e) => {
+                    colorInput.value = e.target.value;
+                    document.getElementById('theme-preset').value = 'custom';
+                });
+            });
+
+            // Auto-expand profile if hash is present
+            if (window.location.hash === '#profile') {
+                toggleSection('admin-profile-content', 'admin-profile-chevron');
+            }
+        });
+
+        function fetchSettings() {
+            fetch(API_BASE_URL + '/api/settings', { credentials: 'include' })
+                .then(res => res.json())
+                .then(settings => {
+                    currentSettings = settings;
+                    renderPaymentMethods();
+                    renderContact();
+                    renderTheme();
+                    renderProfile();
+                });
+        }
+
+
+
+        function renderContact() {
+            if (currentSettings.contact) {
+                document.getElementById('contact-phone').value = currentSettings.contact.phone || '';
+                document.getElementById('contact-phone-2').value = currentSettings.contact.phone2 || '';
+
+                document.getElementById('social-facebook').value = currentSettings.contact.facebook || '';
+                document.getElementById('social-whatsapp').value = currentSettings.contact.whatsapp || '';
+                document.getElementById('social-telegram').value = currentSettings.contact.telegram || '';
+                document.getElementById('social-twitter').value = currentSettings.contact.twitter || '';
+            }
+        }
+
+        function renderProfile() {
+            if (currentSettings.admin) {
+                document.getElementById('admin-username').value = currentSettings.admin.username || '';
+                document.getElementById('admin-password').value = currentSettings.admin.password || '';
+                document.getElementById('admin-recovery').value = currentSettings.admin.recoveryInfo || '';
+            }
+        }
+
+        function renderTheme() {
+            const theme = currentSettings.theme || themes.default; // Fallback
+
+            // Check if it matches a preset
+            let foundPreset = 'custom';
+            for (const [key, val] of Object.entries(themes)) {
+                let match = true;
+                for (const v of cssVars) {
+                    if (val[`--${v}`] !== theme[`--${v}`]) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) {
+                    foundPreset = key;
+                    break;
+                }
+            }
+            document.getElementById('theme-preset').value = foundPreset;
+
+            // Populate Inputs
+            cssVars.forEach(v => {
+                const val = theme[`--${v}`] || themes.default[`--${v}`];
+                const colorInput = document.getElementById(v);
+                const textInput = document.getElementById(`${v}-text`);
+                if (colorInput && textInput) {
+                    colorInput.value = val;
+                    textInput.value = val;
+                }
+            });
+        }
+
+        function renderPaymentMethods() {
+            const tbody = document.getElementById('payment-methods-body');
+            tbody.innerHTML = '';
+
+            // Ensure paymentMethods exists
+            if (!currentSettings.paymentMethods) currentSettings.paymentMethods = [];
+
+            currentSettings.paymentMethods.forEach((method, index) => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #334155';
+                tr.innerHTML = `
+                    <td style="padding: 1rem;">
+                        <input type="checkbox" ${method.enabled ? 'checked' : ''} onchange="toggleMethod(${index})">
+                    </td>
+                    <td style="padding: 1rem;">
+                        <i class="fas ${method.icon} text-accent"></i> ${method.name}
+                    </td>
+                    <td style="padding: 1rem;">${method.number}</td>
+                    <td style="padding: 1rem;">
+                        <button onclick="editMethod(${index})" class="action-btn" style="color: #3b82f6; margin-right: 0.5rem;"><i class="fas fa-edit"></i></button>
+                        <button onclick="deleteMethod(${index})" class="action-btn" style="color: #ef4444;"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleMethod(index) {
+            currentSettings.paymentMethods[index].enabled = !currentSettings.paymentMethods[index].enabled;
+            saveSettings(true); // Silent save
+        }
+
+
+
+        function editMethod(index) {
+            const method = currentSettings.paymentMethods[index];
+            document.getElementById('method-id').value = index;
+            document.getElementById('method-name').value = method.name;
+            document.getElementById('method-number').value = method.number;
+            document.getElementById('method-icon').value = method.icon;
+            document.getElementById('method-instruction').value = method.instruction;
+
+            document.getElementById('form-title').innerText = 'Edit Payment Method';
+            const formContainer = document.getElementById('payment-form-container');
+            formContainer.style.display = 'block';
+            formContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteMethod(index) {
+            if (confirm('Are you sure you want to delete this method?')) {
+                currentSettings.paymentMethods.splice(index, 1);
+                saveSettings(); // Refresh
+            }
+        }
+
+        function toggleSection(contentId, chevronId) {
+            const content = document.getElementById(contentId);
+            const chevron = document.getElementById(chevronId);
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                chevron.classList.remove('fa-chevron-down');
+                chevron.classList.add('fa-chevron-up');
+            } else {
+                content.style.display = 'none';
+                chevron.classList.remove('fa-chevron-up');
+                chevron.classList.add('fa-chevron-down');
+            }
+        }
+
+        function resetPaymentForm(hide = false) {
+            document.getElementById('method-id').value = 'new';
+            document.getElementById('method-name').value = '';
+            document.getElementById('method-number').value = '';
+            document.getElementById('method-icon').value = '';
+            document.getElementById('method-instruction').value = '';
+            document.getElementById('form-title').innerText = 'Add New Payment Method';
+
+            const formContainer = document.getElementById('payment-form-container');
+            if (hide) {
+                formContainer.style.display = 'none';
+            } else {
+                formContainer.style.display = 'block';
+                formContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function handlePaymentSave(e) {
+            if (e) e.preventDefault();
+            const id = document.getElementById('method-id').value;
+
+            // Get existing method if editing
+            const existingMethod = (id !== 'new') ? currentSettings.paymentMethods[id] : null;
+
+            const name = document.getElementById('method-name').value;
+            const number = document.getElementById('method-number').value;
+
+            if (!name || !number) {
+                alert('Method Name and Number are required');
+                return;
+            }
+
+            const newMethod = {
+                id: id === 'new' ? 'custom_' + Date.now() : existingMethod.id,
+                name: name,
+                number: number,
+                icon: document.getElementById('method-icon').value || 'fa-money-bill',
+                instruction: document.getElementById('method-instruction').value,
+                // Use existing placeholder if available, else default
+                placeholder: existingMethod ? existingMethod.placeholder : 'Enter Transaction/Details',
+                enabled: existingMethod ? existingMethod.enabled : true
+            };
+
+            if (id === 'new') {
+                currentSettings.paymentMethods.push(newMethod);
+            } else {
+                currentSettings.paymentMethods[id] = newMethod;
+            }
+
+            saveSettings();
+            resetPaymentForm(true); // Hide form and clear
+        }
+
+        function saveSettings(silent = false) {
+            // Update theme part of state before saving
+            const themeSettings = {};
+            cssVars.forEach(v => {
+                themeSettings[`--${v}`] = document.getElementById(v).value;
+            });
+            currentSettings.theme = themeSettings;
+            // Update local storage and apply immediately
+            localStorage.setItem('adminTheme', JSON.stringify(themeSettings));
+            if (window.applyTheme) window.applyTheme(themeSettings);
+
+            currentSettings.contact = {
+                phone: document.getElementById('contact-phone').value,
+                phone2: document.getElementById('contact-phone-2').value,
+                facebook: document.getElementById('social-facebook').value,
+                whatsapp: document.getElementById('social-whatsapp').value,
+                telegram: document.getElementById('social-telegram').value,
+                twitter: document.getElementById('social-twitter').value
+            };
+
+            // Admin Profile Save
+            if (!currentSettings.admin) currentSettings.admin = {};
+            currentSettings.admin.username = document.getElementById('admin-username').value;
+            currentSettings.admin.password = document.getElementById('admin-password').value;
+            currentSettings.admin.recoveryInfo = document.getElementById('admin-recovery').value;
+
+            fetch(API_BASE_URL + '/api/settings', {
+                credentials: 'include',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentSettings)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (!silent) alert('Settings Saved!');
+                    renderPaymentMethods(); // Re-render to show updates
+                })
+                .catch(err => alert('Error saving settings'));
+        }
+
+        function togglePasswordVisibility(id) {
+            const input = document.getElementById(id);
+            const icon = input.nextElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        document.querySelector('.logout-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            fetch(API_BASE_URL + '/api/auth/logout', { method: 'POST', credentials: 'include' })
+                .then(() => window.location.href = 'admin_login.html');
+        });
+    </script>
+</body>
+
+</html>

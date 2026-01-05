@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bkash Payment - Itqan Creative</title>
+    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header_img_div">
+            <a href="index.html">
+                <img src="img/header.svg" alt="Itqan Creative Logo" class="header_img">
+            </a>
+        </div>
+
+        <div class="parent">
+            <div class="child" id="menu_div">
+                <nav class="menu_aria">
+                    <ul>
+                        <li><a href="index.html">হোম</a></li>
+                        <li class="dropdown-parent">
+                            <a href="index.html#logo">আমাদের কাজ</a>
+                            <ul class="dropdown">
+                                <li><a href="index.html#logo">লোগো ডিজাইন</a></li>
+                                <li><a href="index.html#book">বই ডিজাইন</a></li>
+                                <li><a href="index.html#web">ওয়েব ডিজাইন</a></li>
+                                <li><a href="#">ওয়েব ডেভেলপমেন্ট</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="about.html">সম্পর্কে</a></li>
+                        <li><a href="about.html#contact">যোগাযোগ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="payment-hero" style="margin-bottom: 2rem;">
+            <div class="container">
+                <h1><i class="fas fa-mobile-alt"></i> বিকাশ পেমেন্ট</h1>
+                <p>নিচে দেওয়া নাম্বারে সেন্ড মানি করুন</p>
+            </div>
+        </section>
+
+        <section class="payment-details-container">
+            <div class="payment-details-form" style="opacity: 1; transform: none; margin-top: 0;">
+
+                <h3 class="form-title" style="justify-content: center;">
+                    <i class="fas fa-mobile-alt" style="color: #e2136e;"></i> বিকাশ
+                </h3>
+
+                <div class="payment-info-box" style="text-align: center; border-color: #e2136e;">
+                    <span class="info-label"><span id="bkash-text">01700000000</span> এই নাম্বারে Send Money করুন ও
+                        ট্রানজেকশন আইডি আপলোড
+                        করুন।</span>
+                    <span class="info-number" id="copy-number" title="Click to copy"
+                        style="justify-content: center; margin-top: 1rem; color: #e2136e;">
+                        <span id="bkash-number">Loading...</span> <i class="far fa-copy"></i>
+                    </span>
+                </div>
+
+                <form id="static-payment-form">
+                    <div class="form-group">
+                        <label>Transaction ID</label>
+                        <input type="text" class="payment-input" placeholder="Transaction ID দিন" required>
+                    </div>
+                    <button type="submit" class="pay-btn" style="background: #e2136e;">পেমেন্ট নিশ্চিত করুন</button>
+                    <p class="secure-note"><i class="fas fa-shield-alt"></i> আপনার তথ্য সুরক্ষিত</p>
+                </form>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="payment.html" class="post-order-btn"
+                        style="display: inline-flex; align-items: center; gap: 8px; font-size: 1rem; padding: 0.8rem 1.5rem; border-width: 2px;">
+                        <i class="fas fa-arrow-left"></i> পেমেন্ট পেজে ফিরে যান
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <h2>আমাদের সম্পর্কে</h2>
+            <p>আমরা ইকান ক্রিয়েটিভস, আপনার সব ধরনের ডিজাইন এবং ডেভেলপমেন্ট প্রয়োজনের জন্য।</p>
+            <p>&copy; ২০২৬ ইকান ক্রিয়েটিভস। সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Inline script for this page specific interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch Settings
+            fetch('/api/settings')
+                .then(res => res.json())
+                .then(settings => {
+                    const number = settings.payment.bkash;
+                    document.getElementById('bkash-number').innerText = number;
+                    document.getElementById('bkash-text').innerText = number;
+
+                    // Copy functionality
+                    const numberDisplay = document.getElementById('copy-number');
+                    if (numberDisplay) {
+                        numberDisplay.addEventListener('click', () => {
+                            navigator.clipboard.writeText(number);
+
+                            const originalHTML = numberDisplay.innerHTML;
+                            numberDisplay.innerHTML = `${number} <i class="fas fa-check"></i>`;
+                            numberDisplay.classList.add('copied');
+
+                            setTimeout(() => {
+                                numberDisplay.innerHTML = originalHTML;
+                                numberDisplay.classList.remove('copied');
+                            }, 2000);
+                        });
+                    }
+                });
+
+
+
+            // Form Submit Mock
+            const form = document.getElementById('static-payment-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = form.querySelector('button');
+                    const originalText = btn.innerText;
+
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
+                    btn.disabled = true;
+
+                    setTimeout(() => {
+                        alert('আপনার পেমেন্ট সফল হয়েছে! ধন্যবাদ।');
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                        form.reset();
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

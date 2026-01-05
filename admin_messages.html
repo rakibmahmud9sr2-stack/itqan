@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Messages - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kalpurush&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style/admin.css">
+    <script src="/js/admin-theme.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="/img/header.svg" alt="Itqan" class="logo">
+                <h3>Admin Panel</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/admin/dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="/admin/orders"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+                    <li><a href="/admin/services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                    <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+                    <li class="active"><a href="/admin/messages"><i class="fas fa-envelope"></i> Messages</a></li>
+                    <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/index.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h2>Messages</h2>
+                <div class="user-info">
+                    <div class="profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=06b6d4&color=fff" alt="Admin">
+                        <span>Super Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="recent-orders-section">
+                    <div class="section-header">
+                        <h2>Inbox</h2>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sender</th>
+                                    <th>Message</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="messages-table-body">
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', fetchMessages);
+
+        function fetchMessages() {
+            fetch('/api/messages')
+                .then(res => res.json())
+                .then(msgs => {
+                    const tbody = document.getElementById('messages-table-body');
+                    tbody.innerHTML = '';
+                    msgs.forEach(msg => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>
+                                <strong>${msg.name}</strong><br>
+                                <small>${msg.email}</small>
+                            </td>
+                            <td>${msg.message}</td>
+                            <td>${msg.date}</td>
+                            <td><button onclick="deleteMessage(${msg.id})" class="action-btn" style="color: #ef4444;"><i class="fas fa-trash"></i></button></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        function deleteMessage(id) {
+            if (confirm('Delete this message?')) {
+                fetch(`/api/messages/${id}`, { method: 'DELETE' })
+                    .then(() => fetchMessages());
+            }
+        }
+    </script>
+</body>
+
+</html>

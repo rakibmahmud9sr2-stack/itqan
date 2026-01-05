@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Services - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kalpurush&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style/admin.css">
+    <script src="/js/admin-theme.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (Same as Dashboard) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="/img/header.svg" alt="Itqan" class="logo">
+                <h3>Admin Panel</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/admin/dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="/admin/orders"><i class="fas fa-shopping-cart"></i> Orders</a></li>
+                    <li class="active"><a href="/admin/services"><i class="fas fa-concierge-bell"></i> Services</a>
+                    </li>
+                    <li><a href="/admin/users"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="/admin/messages"><i class="fas fa-envelope"></i> Messages</a></li>
+                    <li><a href="/admin/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/index.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h2>Manage Services</h2>
+                <div class="user-info">
+                    <div class="profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=06b6d4&color=fff" alt="Admin">
+                        <span>Super Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <!-- Add New Post Form -->
+                <div class="recent-orders-section" style="margin-bottom: 2rem;">
+                    <div class="section-header">
+                        <h2>Add New Service</h2>
+                    </div>
+                    <form id="add-service-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="post-title" required class="payment-input"
+                                style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="post-category" class="payment-input"
+                                style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="logo">Logo Design</option>
+                                <option value="book">Book Design</option>
+                                <option value="web">Web Design</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="text" id="post-image" placeholder="post/logo1.jpg" required
+                                class="payment-input"
+                                style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" id="post-desc" required class="payment-input"
+                                style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="pay-btn"
+                            style="background: #06b6d4; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; grid-column: span 2;">Add
+                            Service</button>
+                    </form>
+                </div>
+
+                <!-- Existing Posts Table -->
+                <div class="recent-orders-section">
+                    <div class="section-header">
+                        <h2>Existing Services</h2>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="services-table-body">
+                                <!-- Dynamic Content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchServices();
+
+            // Add Service
+            document.getElementById('add-service-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newPost = {
+                    title: document.getElementById('post-title').value,
+                    category: document.getElementById('post-category').value,
+                    image: document.getElementById('post-image').value,
+                    description: document.getElementById('post-desc').value
+                };
+
+                fetch('/api/posts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newPost)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        alert('Service added!');
+                        fetchServices(); // Refresh table
+                        e.target.reset();
+                    })
+                    .catch(err => alert('Error adding service'));
+            });
+        });
+
+        function fetchServices() {
+            fetch('/api/posts')
+                .then(res => res.json())
+                .then(posts => {
+                    const tbody = document.getElementById('services-table-body');
+                    tbody.innerHTML = '';
+                    posts.forEach(post => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td><img src="${post.image}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
+                            <td>${post.title}</td>
+                            <td><span class="status ${post.category === 'logo' ? 'completed' : post.category === 'book' ? 'pending' : 'cancelled'}">${post.category.toUpperCase()}</span></td>
+                            <td>${post.description}</td>
+                            <td><button onclick="deleteService(${post.id})" class="action-btn" style="color: #ef4444;"><i class="fas fa-trash"></i></button></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        function deleteService(id) {
+            if (confirm('Are you sure you want to delete this service?')) {
+                fetch(`/api/posts/${id}`, { method: 'DELETE' })
+                    .then(res => res.json())
+                    .then(() => {
+                        fetchServices(); // Refresh table
+                    })
+                    .catch(err => alert('Error deleting service'));
+            }
+        }
+    </script>
+</body>
+
+</html>
