@@ -1,0 +1,322 @@
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #0069d9;
+    /* Base blue background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    /* For the background shapes */
+    position: relative;
+    color: #333;
+}
+
+/* Background Decorations (optional, to match the "blue vibe" of the full screen if needed) */
+body::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+/* Main Card Container */
+.container {
+    width: 900px;
+    height: 550px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Left Side (Welcome Section) */
+.welcome-section {
+    flex: 1;
+    background: linear-gradient(135deg, #0056b3, #004494);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Curved Shape Divider */
+.welcome-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -50px;
+    width: 100px;
+    height: 100%;
+    background: inherit;
+    border-radius: 0 50% 50% 0;
+    /* Creates the curve */
+    z-index: -1;
+    display: none;
+    /* Tricky to do the exact curve in CSS matching the image without SVG, simplifying for now */
+}
+
+/* Using a clip-path or SVG for the curve is better, but for simplicity let's stick to a clean split or use a pseudo element for the circle overlap */
+
+.welcome-section .content {
+    z-index: 2;
+}
+
+.welcome-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.welcome-section p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+/* Geometric Circles on Left Side */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.circle-1 {
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    left: -50px;
+}
+
+.circle-2 {
+    width: 150px;
+    height: 150px;
+    bottom: 50px;
+    right: -30px;
+}
+
+/* Right Side (Form Section) */
+.form-section {
+    flex: 1.2;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.form-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-header h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-header p {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Form Groups */
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    /* Space for icon */
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.form-group .icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 1rem;
+}
+
+/* Password Eye Icon */
+.form-group .show-pass {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0056b3;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Options (Remember Me / Forgot Password) */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    margin-bottom: 25px;
+    color: #666;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.options input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.options a {
+    text-decoration: none;
+    color: #0056b3;
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background-color: #0b407a;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #093463;
+}
+
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.divider span {
+    background-color: #fff;
+    padding: 0 10px;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid #ddd;
+    color: #555;
+}
+
+.btn-outline:hover {
+    border-color: #0b407a;
+    color: #0b407a;
+}
+
+/* Navigation Links (Back to Home, Switch Page) */
+.nav-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #0056b3;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.home-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.home-link:hover {
+    opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        width: 90%;
+    }
+
+    .welcome-section {
+        padding: 30px;
+    }
+
+    .form-section {
+        padding: 30px;
+    }
+}

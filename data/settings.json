@@ -1,0 +1,71 @@
+{
+  "theme": {
+    "--primary-bg": "#0f172a",
+    "--card-bg": "#1e293b",
+    "--accent-color": "#06b6d4",
+    "--accent-hover": "#0891b2",
+    "--text-primary": "#f1f5f9",
+    "--text-secondary": "#94a3b8",
+    "--border-color": "#334155"
+  },
+  "admin": {
+    "username": "admin",
+    "password": "password123",
+    "recoveryInfo": "rakib@67"
+  },
+  "paymentMethods": [
+    {
+      "id": "bkash",
+      "name": "বিকাশ",
+      "number": "01518701543",
+      "icon": "fa-mobile-alt",
+      "instruction": "এই নাম্বারে Send Money করুন ও ট্রানজেকশন আইডি আপলোড করুন।",
+      "placeholder": "Transaction ID দিন",
+      "enabled": true
+    },
+    {
+      "id": "nagad",
+      "name": "নগদ",
+      "number": "01518701543",
+      "icon": "fa-mobile-alt",
+      "instruction": "এই নাম্বারে Send Money করুন ও ট্রানজেকশন আইডি আপলোড করুন।",
+      "placeholder": "Transaction ID দিন",
+      "enabled": true
+    },
+    {
+      "id": "rocket",
+      "name": "রকেট",
+      "number": "01518701543",
+      "icon": "fa-rocket",
+      "instruction": "এই নাম্বারে Send Money করুন ও ট্রানজেকশন আইডি আপলোড করুন।",
+      "placeholder": "Transaction ID দিন",
+      "enabled": true
+    },
+    {
+      "id": "card",
+      "name": "Card (Visa/Master)",
+      "number": "4170 3310 7584 2117",
+      "icon": "fa-credit-card",
+      "instruction": "এই কার্ড নাম্বারে ট্রান্সফার করুন।",
+      "placeholder": "আপনার কার্ডের শেষ ৪ ডিজিট",
+      "enabled": true
+    },
+    {
+      "id": "custom_1767592028669",
+      "name": "Test Bank",
+      "number": "54321",
+      "icon": "fas fa-university",
+      "instruction": "Send money",
+      "placeholder": "Enter Transaction/Details",
+      "enabled": true
+    }
+  ],
+  "contact": {
+    "phone": "",
+    "phone2": "",
+    "facebook": "",
+    "whatsapp": "",
+    "telegram": "",
+    "twitter": ""
+  }
+}

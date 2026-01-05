@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1672704000000,
+        "name": "Ayesha Khan",
+        "email": "ayesha@example.com",
+        "message": "I need a logo design for my shop.",
+        "date": "2026-01-03"
+    },
+    {
+        "id": 1672790400000,
+        "name": "John Doe",
+        "email": "john@test.com",
+        "message": "Do you make websites?",
+        "date": "2026-01-04"
+    }
+]
